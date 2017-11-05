@@ -852,7 +852,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".img {\n    max-width: 240px;\n}\n\nh3 {\n    margin-top: 1em;\n}\n\n.trainer {\n    margin-left: 10px;\n    margin-right: 10px;\n}", ""]);
+exports.push([module.i, ".img {\n    max-width: 240px;\n}\n\nh3 {\n    margin-top: 1em;\n}\n\n.trainer {\n    margin-left: 10px;\n    margin-right: 10px;\n}\n\n.logo {\n    width: 150px;\n}", ""]);
 
 // exports
 
@@ -865,7 +865,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/routeComponents/select-trainer/select-trainer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- \n  - Header w/ name of biz\n  - Img of biz logo\n  - List of trainers (as buttons)\n -->\n<div class=\"container\">\n  <div class=\"row header text-center\">\n    <div class=\"col-sm-10 col-sm-offset-1\">\n      <h3 class=\"partner_name\">Jim's Personal Training</h3>\n      <h5 class=\"partner_city\">Toronto, ON</h5>\n      <p  class=\"partner_descrip\">Looking to learn about the basics of weight lifting? Or interested in getting invovled with the calesthenics community in Toronto? Book your appointment with a trainer at Jim's today.</p>\n      <img src=\"./assets/images/logo1.jpg\" alt=\"\">\n\n      <div class=\"trainers\">\n        <button class=\"btn trainer\" *ngFor=\"let trainer of trainers_arr\" routerLink=\"/select-date\" [queryParams]=\"{ trainer_key: trainer.userKey, trainer_name: trainer.firstName }\">\n          {{trainer.firstName}} {{trainer.lastName}}\n        </button>\n      </div> \n    </div>\n  </div>\n</div>"
+module.exports = "<!-- \n  - Header w/ name of biz\n  - Img of biz logo\n  - List of trainers (as buttons)\n -->\n<div class=\"container\">\n  <div class=\"row header text-center\">\n    <div class=\"col-sm-10 col-sm-offset-1\">\n      <img class=\"logo\" src=\"./assets/images/wong_logo.jpg\" alt=\"\">\n      <h3 class=\"partner_name\">Powered By Fitness</h3>\n      <h5 class=\"partner_city\">Toronto, ON</h5>\n      <p  class=\"partner_descrip\">Personal Training for strength, size or fat loss, boot camps, etc.</p>\n      <br>\n\n      <div class=\"trainers\">\n        <button class=\"btn trainer\" *ngFor=\"let trainer of trainers_arr\" routerLink=\"/select-date\" [queryParams]=\"{ trainer_key: trainer.userKey, trainer_name: trainer.firstName }\">\n          {{trainer.firstName}} {{trainer.lastName}}\n        </button>\n      </div> \n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
