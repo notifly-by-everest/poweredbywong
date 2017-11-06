@@ -1044,21 +1044,22 @@ var WebService = (function () {
         this.selected_trainer_name = null;
         this.trainer_schedule = null;
         this.selected_slot = null;
+        this.baseURL = 'https://us-central1-wongs-3865d.cloudfunctions.net';
         this.submissionResponse = null;
     }
     WebService.prototype.selectTrainerCall = function (trainer) {
         return "Saved trainer " + trainer;
     };
     WebService.prototype.getTrainers = function () {
-        return this._http.get('https://us-central1-remindly-dev.cloudfunctions.net/getTrainers')
+        return this._http.get(this.baseURL + '/getTrainers')
             .map(function (res) { return res; });
     };
     WebService.prototype.getTrainerScheduleTillEOM = function (trainer_key, month) {
-        return this._http.get('https://us-central1-remindly-dev.cloudfunctions.net/get_schedule_till_end_of_month2?trainer_key=' + trainer_key + '&month=' + month)
+        return this._http.get(this.baseURL + '/get_schedule_till_end_of_month2?trainer_key=' + trainer_key + '&month=' + month)
             .map(function (res) { return res; });
     };
     WebService.prototype.submitAnAppointment = function (appointmentObj) {
-        return this._http.post('https://us-central1-remindly-dev.cloudfunctions.net/submitAppointment', appointmentObj)
+        return this._http.post(this.baseURL + '/submitAppointment', appointmentObj)
             .map(function (res) { return res; });
     };
     return WebService;
