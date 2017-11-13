@@ -213,7 +213,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/routeComponents/confirmation/confirmation.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container bg\">\n  <div class=\"row main\">\n    <div class=\"col-sm-5 col-sm-offset-2 confirmation_details\">\n      <h4 class=\"confirmation_h4\">Booking Confirmation</h4>\n      <p class=\"confirmation_p\">{{user_name}}, your booking has been confirmed.</p>\n\n      <label for=\"\">GYM</label>\n      <p class=\"partner_name\">Joe's Personal Training</p>\n      <label for=\"\">TRAINER</label>\n      <p class=\"trainer_name\">{{trainer_name}}</p>\n    </div>\n\n    <div class=\"col-sm-3 booking_date text-center\">\n      <div class=\"date_container\">\n        <p class=\"date\">{{appointment_date}}</p>\n        <p class=\"month\">{{appointment_month}}, {{appointment_year}}</p>\n        <p class=\"time\">{{appointment_time}}</p>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container bg\">\n  <div class=\"row main\">\n    <div class=\"col-sm-5 col-sm-offset-2 confirmation_details\">\n      <h4 class=\"confirmation_h4\">Booking Confirmation</h4>\n      <p class=\"confirmation_p\">{{user_name}}, your booking has been confirmed.</p>\n\n      <label for=\"\">GYM</label>\n      <p class=\"partner_name\">{{org_name}}</p>\n      <label for=\"\">TRAINER</label>\n      <p class=\"trainer_name\">{{trainer_name}}</p>\n    </div>\n\n    <div class=\"col-sm-3 booking_date text-center\">\n      <div class=\"date_container\">\n        <p class=\"date\">{{appointment_date}}</p>\n        <p class=\"month\">{{appointment_month}}, {{appointment_year}}</p>\n        <p class=\"time\">{{appointment_time}}</p>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -248,6 +248,7 @@ var ConfirmationComponent = (function () {
         this.appointment_month = null;
         this.appointment_year = null;
         this.appointment_time = null;
+        this.org_name = null;
     }
     ConfirmationComponent.prototype.ngOnInit = function () {
         if (this._webSrv.submissionResponse == null) {
@@ -262,6 +263,8 @@ var ConfirmationComponent = (function () {
             this.appointment_month = this._webSrv.selected_month;
             this.appointment_year = this._webSrv.selected_year;
             this.appointment_time = this._webSrv.selected_slot['startTimeHuman'];
+            // Set copy
+            this.org_name = this._webSrv.environment_object['org_name'];
         }
     };
     return ConfirmationComponent;
@@ -374,7 +377,9 @@ var InputDetailsComponent = (function () {
             userPhone: this.userPhone,
             userEmail: this.userEmail,
             userName: this.userFname + ' ' + this.userLname,
-            trainerKey: this.selected_trainer_key
+            trainerKey: this.selected_trainer_key,
+            trainerName: this._webSrv.selected_trainer_name,
+            organization: this._webSrv.environment_object['org_name']
         };
         console.log(appointmentObj);
         this._webSrv.submitAnAppointment(appointmentObj).subscribe(function (res) {
@@ -427,7 +432,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/routeComponents/select-date/select-date.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-sm-10 col-sm-offset-1 text-center\">\n    <h3 class=\"top_title\">Choose A Date</h3>\n    \n    <h5 class=\"sub_title\">{{month}} {{year}}</h5>\n\n    <br>\n  </div>\n</div>\n\n\n<div class=\"row\">\n  <div class=\"col-sm-10 col-sm-offset-1 text-center\">\n    <table>\n        <thead class=\"schedule_head\">\n          <tr class=\"text-center\">\n\n            <th>\n              <p class=\"day_title\">Sunday</p>\n            </th>\n\n            <th>\n              <p class=\"day_title\">Monday</p>\n            </th>\n\n            <th>\n              <p class=\"day_title\">Tuesday</p>\n            </th>\n\n            <th>\n              <p class=\"day_title\">Wednesday</p>\n            </th>\n            \n            <th>\n              <p class=\"day_title\">Thursday</p>\n            </th>\n            \n            <th>\n              <p class=\"day_title\">Friday</p>\n            </th>\n            \n            <th>\n              <p class=\"day_title\">Saturday</p>\n            </th>\n            \n          </tr>\n        </thead>\n\n        <tbody class=\"schedule\">\n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week1\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\">{{day.date}}</span></td>\n          </tr>\n          \n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week2\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\">{{day.date}}</span></td>\n          </tr>\n          \n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week3\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\" [ngClass]=\"{ 'date_available': day.available }\">{{day.date}}</span></td>\n          </tr>\n          \n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week4\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\">{{day.date}}</span></td>\n          </tr>\n\n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week5\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\">{{day.date}}</span></td>\n          </tr>\n\n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week6\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\">{{day.date}}</span></td>\n          </tr>\n        </tbody>\n      </table>\n  </div>\n</div>\n\n<div class=\"row\">\n  <div class=\"col-sm-4 col-sm-offset-2 next_left\">\n    <img src=\"./assets/images/next1.png\" alt=\"\" class=\"next\" (click)=\"changeMonth('prev')\">\n  </div>\n  \n  <div class=\"col-sm-4 next_right\">\n      <img src=\"./assets/images/next.png\" alt=\"\" class=\"next\" (click)=\"changeMonth('next')\">\n  </div>\n</div>"
+module.exports = "<div class=\"row\">\n  <div class=\"col-sm-10 col-sm-offset-1 text-center\">\n    <h3 class=\"top_title\">Choose A Date</h3>\n    \n    <h5 class=\"sub_title\">{{month}} {{year}}</h5>\n\n    <br>\n  </div>\n</div>\n\n\n<div class=\"row\">\n  <div class=\"col-sm-10 col-sm-offset-1 text-center\">\n    <table>\n        <thead class=\"schedule_head\">\n          <tr class=\"text-center\">\n\n            <th>\n              <p class=\"day_title\">Sunday</p>\n            </th>\n\n            <th>\n              <p class=\"day_title\">Monday</p>\n            </th>\n\n            <th>\n              <p class=\"day_title\">Tuesday</p>\n            </th>\n\n            <th>\n              <p class=\"day_title\">Wednesday</p>\n            </th>\n            \n            <th>\n              <p class=\"day_title\">Thursday</p>\n            </th>\n            \n            <th>\n              <p class=\"day_title\">Friday</p>\n            </th>\n            \n            <th>\n              <p class=\"day_title\">Saturday</p>\n            </th>\n            \n          </tr>\n        </thead>\n\n        <tbody class=\"schedule\">\n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week1\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\">{{day.date}}</span></td>\n          </tr>\n          \n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week2\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\">{{day.date}}</span></td>\n          </tr>\n          \n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week3\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\" [ngClass]=\"{ 'date_available': day.available }\">{{day.date}}</span></td>\n          </tr>\n          \n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week4\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\">{{day.date}}</span></td>\n          </tr>\n\n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week5\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\">{{day.date}}</span></td>\n          </tr>\n\n          <tr>\n            <td class=\"date\" *ngFor=\"let day of week6\" (click)=\"dateSelect(day.available, day.date)\" [ngClass]=\"{ 'date_available': day.available, 'isToday' : day.isToday }\"><span *ngIf=\"day.show\">{{day.date}}</span></td>\n          </tr>\n        </tbody>\n      </table>\n  </div>\n</div>\n\n<div class=\"row\" *ngIf=\"showMonthsBtns\">\n  <div class=\"col-sm-4 col-sm-offset-2 next_left\">\n    <img src=\"./assets/images/next1.png\" alt=\"\" class=\"next\" (click)=\"changeMonth('prev')\">\n  </div>\n  \n  <div class=\"col-sm-4 next_right\">\n      <img src=\"./assets/images/next.png\" alt=\"\" class=\"next\" (click)=\"changeMonth('next')\">\n  </div>\n</div>"
 
 /***/ }),
 
@@ -440,6 +445,8 @@ module.exports = "<div class=\"row\">\n  <div class=\"col-sm-10 col-sm-offset-1 
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_web_service__ = __webpack_require__("../../../../../src/app/services/web.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_scheduleHelper_service__ = __webpack_require__("../../../../../src/app/services/scheduleHelper.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_Rx__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -453,6 +460,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var SelectDateComponent = (function () {
     function SelectDateComponent(_activeRoute, _router, _webSrv, _schedSrv) {
         this._activeRoute = _activeRoute;
@@ -461,6 +469,8 @@ var SelectDateComponent = (function () {
         this._schedSrv = _schedSrv;
         this.monthIndex = 0;
         this.showIsToday = true;
+        this.showMonthsBtns = true;
+        this.ticks = 0;
         this.month = 'September';
         this.year = 2017;
         this.week1 = [];
@@ -512,7 +522,11 @@ var SelectDateComponent = (function () {
                 start = true;
             }
             else {
-                scheduleArray.push({ date: "N/A", show: false, available: false });
+                scheduleArray.push({
+                    date: "N/A",
+                    show: false,
+                    available: false
+                });
             }
             if (start && date <= endDateIndex) {
                 var tempObj = {
@@ -557,7 +571,7 @@ var SelectDateComponent = (function () {
         }
         console.log(this.week4);
         for (var i = 28; i < 35; i++) {
-            if (scheduleArray[i]['show']) {
+            if (scheduleArray[i] && scheduleArray[i]['show']) {
                 this.week5.push(scheduleArray[i]);
             }
         }
@@ -584,6 +598,7 @@ var SelectDateComponent = (function () {
     };
     SelectDateComponent.prototype.changeMonth = function (direction) {
         var _this = this;
+        this.disableChange();
         if (direction == "next") {
             if (this.monthIndex < 11) {
                 // Increase month index and change month name
@@ -654,6 +669,14 @@ var SelectDateComponent = (function () {
                 }
             }
         }
+    };
+    SelectDateComponent.prototype.disableChange = function () {
+        var _this = this;
+        this.showMonthsBtns = false;
+        var timer = __WEBPACK_IMPORTED_MODULE_4_rxjs_Rx__["Observable"].timer(2000);
+        timer.subscribe(function (t) {
+            _this.showMonthsBtns = true;
+        });
     };
     SelectDateComponent.prototype.clearWeeks = function () {
         this.week1 = [];
@@ -865,7 +888,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/routeComponents/select-trainer/select-trainer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- \n  - Header w/ name of biz\n  - Img of biz logo\n  - List of trainers (as buttons)\n -->\n<div class=\"container\">\n  <div class=\"row header text-center\">\n    <div class=\"col-sm-10 col-sm-offset-1\">\n      <img class=\"logo\" src=\"./assets/images/wong_logo.jpg\" alt=\"\">\n      <h3 class=\"partner_name\">Powered By Fitness</h3>\n      <h5 class=\"partner_city\">Toronto, ON</h5>\n      <p  class=\"partner_descrip\">Personal Training for strength, size or fat loss, boot camps, etc.</p>\n      <br>\n\n      <div class=\"trainers\">\n        <button class=\"btn trainer\" *ngFor=\"let trainer of trainers_arr\" routerLink=\"/select-date\" [queryParams]=\"{ trainer_key: trainer.userKey, trainer_name: trainer.firstName }\">\n          {{trainer.firstName}} {{trainer.lastName}}\n        </button>\n      </div> \n    </div>\n  </div>\n</div>"
+module.exports = "<!-- \n  - Header w/ name of biz\n  - Img of biz logo\n  - List of trainers (as buttons)\n -->\n<div class=\"container\">\n  <div class=\"row header text-center\">\n    <div class=\"col-sm-10 col-sm-offset-1\">\n      <img class=\"logo\" src=\"{{env.org_logo_url}}\" alt=\"\">\n      <h3 class=\"partner_name\">{{env.org_name}}</h3>\n      <h5 class=\"partner_city\">{{env.org_city}}, {{env.org_region}}</h5>\n      <p  class=\"partner_descrip\">{{env.org_tagline}}</p>\n      <br>\n\n      <div class=\"trainers\">\n        <button class=\"btn trainer\" *ngFor=\"let trainer of trainers_arr\" routerLink=\"/select-date\" [queryParams]=\"{ trainer_key: trainer.userKey, trainer_name: trainer.firstName }\">\n          {{trainer.firstName}} {{trainer.lastName}}\n        </button>\n      </div> \n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -897,6 +920,8 @@ var SelectTrainerComponent = (function () {
     }
     SelectTrainerComponent.prototype.ngOnInit = function () {
         var _this = this;
+        // Get & set copy
+        this.env = this._webSrv.environment_object;
         this.trainers = this._webSrv.getTrainers();
         this.trainers.subscribe(function (trainers) {
             var trainserObj = JSON.parse(trainers['_body']);
@@ -1018,8 +1043,9 @@ var _a;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WebService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1029,6 +1055,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1044,8 +1071,11 @@ var WebService = (function () {
         this.selected_trainer_name = null;
         this.trainer_schedule = null;
         this.selected_slot = null;
-        this.baseURL = 'https://us-central1-wongs-3865d.cloudfunctions.net';
+        this.baseURL = '';
+        this.environment_object = null;
         this.submissionResponse = null;
+        this.environment_object = __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */];
+        this.baseURL = this.environment_object['base_url'];
     }
     WebService.prototype.selectTrainerCall = function (trainer) {
         return "Saved trainer " + trainer;
@@ -1085,7 +1115,13 @@ var _a;
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 // The file contents for the current environment will overwrite these during build.
 var environment = {
-    production: false
+    production: false,
+    org_name: "Powered By Fitness",
+    org_tagline: 'Personal Training for strength, size or fat loss, boot camps, etc.',
+    org_city: 'Toronto',
+    org_region: 'ON',
+    org_logo_url: './assets/images/wong_logo.jpg',
+    base_url: 'https://us-central1-wongs-3865d.cloudfunctions.net'
 };
 //# sourceMappingURL=environment.js.map
 
